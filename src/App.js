@@ -5,9 +5,39 @@ import Cart from './components/Cart'
 import Product from './components/Product'
 import styled from 'styled-components'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useState, useEffect, createContext } from 'react'
+import { getCollection } from './utils/db'
+
+const productsCollection = 'product'
+const cartItemsCollection = 'cart-items'
+export const AppContext = createContext(null)
+
 
 function App() {
+  const [items, setCartItems] = useState([])
+  const [products, setProducts] = useState([])
+
+useEffect(() => {
+  getCollection(cartItemsCollection)
+    .then(res => {
+      setCartItems(res)
+    })
+    .catch(err => {
+      console.error(`Error connecting to the ${cartItemsCollection} DB: ${err}`)
+    })
+
+    getCollection(productsCollection)
+    .then(res => {
+      setProducts(res)
+    })
+    .catch(err => {
+      console.error(`Error connecting to the ${productsCollection} DB: ${err}`)
+    })
+    // eslint-disable-next-line
+}, [])
+
   return (
+    <AppContext.Provider value={{ products, items }}>
     <Router>
       <Container>
         <Header/>
@@ -18,6 +48,7 @@ function App() {
           </Routes>
       </Container>
     </Router>
+    </AppContext.Provider>
   );
 }
 

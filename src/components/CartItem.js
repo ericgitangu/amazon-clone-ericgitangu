@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const CartItem = () => {
-
-
+const CartItem = (products, cartItem) => {
     return (
         <Container>
             <ImageContainer>

@@ -1,33 +1,56 @@
-import  React from 'react'
+import  React, {useContext} from 'react'
 import styled from 'styled-components'
 import { AiFillStar } from 'react-icons/ai'
+import { getDocument, updateCollection, addDocument } from '../utils/db'
+import { AppContext } from '../App.js'
 
-
-
-function Product({product}) {
-
-  return (
-    <>
-    <Container>
-        <Title>
-            {product?.description}
-        </Title>
-        <Price>
-            {product?.price}
-        </Price>
-        <Rating>
-            {Array(product?.rating).fill(0).map( (_, key) => <AiFillStar className="star" key={key}/>)}
-        </Rating>
-        <Image src={product?.image} alt="Product item"/>
-        <ActionSection>
-            <AddToCartButton>
-                Add to Cart
-            </AddToCartButton>
-        </ActionSection>
-    </Container>
-    </>
-  )
-}
+function Product({ product }) {  
+    const {products, items}= useContext(AppContext) 
+    async function cart() {
+        const doc = getDocument('cart-items', product.id)
+        doc.then(res => {
+            if(res) {
+                console.warn(`Result: ${res}`)
+                const data = {
+                    quantity: res.quantity + 1
+                }
+                updateCollection('cart-items', res.id, data)
+            } else {
+                const data = {
+                    description: product?.description,
+                    id: product?.id,
+                    image: product?.image,
+                    price: product?.price,
+                    quantity: 1
+                }
+                addDocument('cart-items', product?.id, data)
+            }
+        }).catch(err => {
+            console.error(err)
+        })
+    }
+    return (
+        <>
+        <Container>
+            <Title>
+                {product?.description}
+            </Title>
+            <Price>
+                {product?.price}
+            </Price>
+            <Rating>
+                {Array(product?.rating).fill(0).map( (_, key) => <AiFillStar className="star" key={key}/>)}
+            </Rating>
+            <Image src={product?.image} alt="Product item"/>
+            <ActionSection>
+                <AddToCartButton onClick={cart}>
+                    Add to Cart 
+                </AddToCartButton>
+            </ActionSection>
+        </Container>
+        </>
+    )
+    }
 
 export default Product
 

@@ -37,8 +37,10 @@ function Header() {
           </HeaderOption>
         </HeaderOptionNavItems>
         <HeaderOptionCart>
+          <Link to='/cart'>
           <BsFillCartPlusFill/>
           <CartCounter>0</CartCounter>
+          </Link>
         </HeaderOptionCart>
 
     </Container>

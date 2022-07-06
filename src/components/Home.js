@@ -1,33 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import '../Home.css'
 import Product from './Product'
 import styled from 'styled-components'
-import { useState, useEffect, createContext } from 'react'
-import { db } from '../firebase.js'
-import { collection, getDocs } from 'firebase/firestore/lite';
+import { AppContext } from '../App.js'
 
-export const HomeContext = createContext({})
-function Home() {
-    const [products, setProduct] = useState([])
-    const getProducts = async () => {
-      const prodCol = collection(db, 'product');
-      const prodSnaps = await getDocs(prodCol);
-      const cityList = prodSnaps.docs.map(doc => doc.data());
-      return cityList;
-  }
-
-  
-  useEffect(() => {
-    getProducts()
-      .then(res => {
-        setProduct(res)
-      })
-      .catch(err => {
-        console.log(`Error connectin to DB: ${err}`)
-      })
-      // eslint-disable-next-line
-  }, [])
-
+function Home() { 
+  const {products, items} = useContext(AppContext)
+  // console.warn(`[Home]: Products: ${JSON.stringify(products)} items: ${JSON.stringify(items)}`)
   return (
       <Container>
           <Banner/>
