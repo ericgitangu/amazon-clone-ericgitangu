@@ -1,15 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 import CartItem from './CartItem'
+import { useSelector } from "react-redux";
 
-function CartItems(products, cartItems) {
-    const docs = getCollection('cart-items')
+function CartItems() {
+    const { items } = useSelector((state) => state.cart)
     return (
         <Container>
             <Title>Shopping Cart</Title>
             <hr />
             <ItemsContainer>
-                <CartItem products={products} cartItems={cartItems} />
+                {
+                    items?.map( (item, key) => (
+                        <CartItem key = { key } item = { item} />
+                    ))
+                }
             </ItemsContainer>
         </Container>
     )

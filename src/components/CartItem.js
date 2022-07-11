@@ -1,32 +1,95 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { deleteDocument, updateDocumentQuantity } from '../utils/db'
+import { deleteCartItemsAsync, updateCartItemsAsync, quantity, total, getCartItemsAsync } from "../feature/cartSlice"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { success } from '../utils/alert'
+import { useSelector, useDispatch } from "react-redux"
 
-const CartItem = (products, cartItem) => {
+const CartItem = ({ item }) => {
+  const dispatch = useDispatch()
+  const { items, totalCount } = useSelector((state) => state.cart)
+  const [successMessage, setSuccessMessage] = useState('')
+
+  useEffect(() => {
+    dispatch(getCartItemsAsync())
+    // eslint-disable-next-line
+    }, []);
+    useEffect(() => {
+        let qtty = 0
+        items.forEach( item => {
+            qtty += item?.quantity
+        })
+        dispatch(quantity(qtty))
+        // eslint-disable-next-line
+    }, [])
+    useEffect(() => {
+        let ttl = 0
+        items.forEach( item => {
+            ttl += item?.quantity * item?.price
+        })
+        dispatch(total(ttl))
+        // eslint-disable-next-line
+    }, [totalCount])
+    const removeItem = (e) => {
+        e.preventDefault()
+        deleteDocument('cart-items', item?.id)
+        dispatch(deleteCartItemsAsync('cart-items', item?.id))
+        dispatch(quantity(parseInt(totalCount) - item?.quantity))
+        const msg = 'Item successfully removed from your cart!'
+        setSuccessMessage(msg)
+        success(msg)
+    }
+    const updateQuantity = (qtty) => {
+        updateDocumentQuantity('cart-items', item?.id, parseInt(qtty))
+        dispatch(updateCartItemsAsync('cart-items', item?.id, parseInt(qtty)))
+        dispatch(quantity(parseInt(totalCount)))
+    }
     return (
+        <>
         <Container>
             <ImageContainer>
-                <img src='https://m.media-amazon.com/images/I/71VwicuVHiL._AC_UY218_.jpg'  alt=''/>
+                <img src={item?.image}  alt=''/>
             </ImageContainer>
 
             <CartItemInfo>
                 <CartItemInfoTop>
-                    <h2>New IPad Pro (12-9 -inch, WiFi + Cellular, 512 GB) - Space Gray - 4th Generation.</h2>
+                    <h2> {item?.description}</h2>
                 </CartItemInfoTop>
                 <CartItemInfoBottom>
                     <CartItemQuantityContainer>
-                        <select>
-                            <option value="5">Qty 5</option>
+                        <select
+                             value={item?.quantity}
+                             onChange={(e) => updateQuantity(e.target.value)} >
+                            {
+                                Array(100).fill(0).map((_, key) =>    
+                                    <option key={key} value={key + 1}>Qty {key + 1}</option>
+                                )
+                            }
                         </select>
                     </CartItemQuantityContainer>
-                    <CartItemDeleteContainer>
+                    <CartItemDeleteContainer onClick={removeItem}>
                         Delete
+                        {successMessage && <ToastContainer
+                            position="bottom-center"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                        />}
                     </CartItemDeleteContainer>
                 </CartItemInfoBottom>
             </CartItemInfo>
             <CartItemPrice>
-                $1499
+                {item?.price}
             </CartItemPrice>
         </Container>
+        </>
     )
 }
 

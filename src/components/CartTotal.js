@@ -1,13 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import NumberFormat from 'react-number-format';
+import NumberFormat from 'react-number-format'
+import { useSelector } from "react-redux";
 
 function CartTotal() {
-
+    const { totalAmount } = useSelector((state) => state.cart)
     return (
         <Container>
-            <Subtotal>Subtotal: 1499 
-                <NumberFormat value='' displayType='text' thousandSeparator={true} prefix={'$'} />
+            <Subtotal>Subtotal:  
+                <NumberFormat value={totalAmount} displayType='text' thousandSeparator={true} prefix={'$'} />
             </Subtotal>
             <CheckoutButton>Proceed to checkout</CheckoutButton>
         </Container>

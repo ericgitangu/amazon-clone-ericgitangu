@@ -1,16 +1,13 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import CartItems from './CartItems'
 import CartTotal from './CartTotal'
-import { AppContext } from '../App.js'
 
 function Cart() {
-  const {products, items} = useContext(AppContext)
-  console.warn(`[Cart]: Products: ${JSON.stringify(products)} items: ${JSON.stringify(items)}`)
   return (
     <Container>
-        <CartItems/>
-        <CartTotal/>
+        <CartItems />
+        <CartTotal />
     </Container>
   )
 }

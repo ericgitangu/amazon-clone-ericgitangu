@@ -1,22 +1,51 @@
 import React from 'react'
 import styled from 'styled-components'
-import { auth, provider } from '../firebase.js'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom'
 
-function Login({ setUser }) {
-
+function Login({setUser}) {
+    // eslint-disable-next-line
+    const navigate = useNavigate()
+    const provider = new GoogleAuthProvider();
     const signIn = () => {
-        auth.signInWithPopup(provider).then((result)=>{
-            let user = result.user;
-            let newUser = {
-                name: user.displayName,
-                email: user.email,
-                photo: user.photoURL
+        const auth = getAuth();
+        signInWithPopup(auth, provider)
+        .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential?.accessToken;
+            // The signed-in user info.
+            const usr = result.user;
+            console.warn(`User: ${JSON.stringify(usr)}`)
+            const userInfo = {
+                name: usr.displayName,
+                email: usr.email,
+                photo: usr.photoURL,
+                id: usr.uid,
+                token: token
             }
-            localStorage.setItem('user', JSON.stringify(newUser))
-            setUser(newUser);
-        }).catch((error)=>{
-            alert(error.message);
-        })
+            localStorage.setItem('user', JSON.stringify(userInfo))
+            navigate('/')
+            window.location.reload()
+        }).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code
+            if(errorCode) {
+                console.error(`Google Login Error Code: ${errorCode}`)
+            }
+            const errorMessage = error.message
+            if(errorMessage) {
+                console.error(`Google Login Error: ${errorMessage}`)
+            }
+            const email = error.customData.email;
+            if(email) {
+                console.error(`Google Login Error: ${email}`)
+            }
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            if(credential) {
+                console.error(`Google Login Error: ${credential}`)
+            }
+        });
     }
 
     return (

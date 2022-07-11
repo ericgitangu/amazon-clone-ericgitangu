@@ -1,8 +1,8 @@
 import { db } from '../firebase.js'
-import { doc, getDoc, updateDoc, collection, getDocs, setDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc, updateDoc, collection, getDocs, setDoc } from "firebase/firestore"
 
 export const getDocument = async(_collection, id) => {
-    console.warn(`getDocument: collection: ${_collection}, id: ${id}`)
+    console.warn(`Fetching Document from collection ${_collection} by id: ${id}`)
     const docRef = doc(db, _collection, id);
     const docSnap = await getDoc(docRef);
 
@@ -15,24 +15,38 @@ export const getDocument = async(_collection, id) => {
 }
 
 export const addDocument = async(_collection, id,  data) => {
-    console.warn(`Collection: ${_collection}, ID: ${id}, data: ${JSON.stringify(data)} `)
+    console.warn(`Adding Document to collection ${_collection} by id: ${id}`)
     await setDoc(doc(db, _collection, id), data)
 }
 
-export const updateCollection = async(_collection, _id, data) => {
-    console.warn(`Collection: ${_collection}, ID: ${_id}, data: ${JSON.stringify(data)} `)
-    const docRef = doc(db, _collection, _id);
-    await updateDoc(docRef, data); 
+export const updateDocument = async(_collection, id, data) => {
+    console.warn(`Updating Document from collection ${_collection} by id: ${id} with data: ${data}`)
+    const docRef = doc(db, _collection, id);
+    await updateDoc(docRef, JSON.stringify(data)); 
 }
 
-export const updateCollectionId = async ( _collection, _id) => {
-    const docRef = doc(db, _collection, _id);
+export const updateDocumentQuantity = async(_collection, id, quantity) => {
+    try {
+        console.warn(`Updating Document Quantity in collection ${_collection} by id: ${id} with data: ${quantity}`)
+        const docRef = doc(db, _collection, id);
+        await updateDoc(docRef, {
+            quantity: quantity
+        }); 
+    } catch(err) {
+        console.error(`updateDocumentQuantity error: ${err}`)
+    }
+}
+
+export const updateCollectionId = async ( _collection, id) => {
+    console.warn(`Updating Document id for ${_collection} with id: ${id}`)
+    const docRef = doc(db, _collection, id);
     await updateDoc(docRef, {
-        id: _id
+        id: id
     }); 
 }
 
 export const getCollection = async (_collection) => {
+    console.warn(`Fetching collection ${_collection}`)
     const col = collection(db, _collection);
     const snaps = await getDocs(col);
      // eslint-disable-next-line
@@ -44,9 +58,15 @@ export const getCollection = async (_collection) => {
     });
 
     if(list) {
+        console.warn(`Collection: ${JSON.stringify(list)}`)
         return list
     } else {
         console.warn("No such documents!");
         return null
     }
+}
+
+export const deleteDocument = async (_collection, id) => {
+    console.warn(`Deleting Document from collection ${_collection} by id: ${id}`)
+    await deleteDoc(doc(db, _collection, id));
 }

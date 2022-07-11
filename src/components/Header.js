@@ -4,10 +4,21 @@ import { GrAmazon } from 'react-icons/gr'
 import { ImLocation } from 'react-icons/im'
 import { BiSearchAlt } from 'react-icons/bi'
 import { BsFillCartPlusFill } from 'react-icons/bs'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import Avatar from 'react-avatar';
+import { useSelector } from "react-redux";
 
-function Header() {
+function Header({ user }, {items}) {
+  const navigate = useNavigate()
+  const { totalCount } = useSelector((state) => state.cart)
+  user = JSON.parse(user)
+  console.warn(`[Header]: user=> ${JSON.stringify(user)} and items => ${JSON.stringify(items)}`)
+  const logout = () => {
+    localStorage.removeItem('user')
+    navigate('/login')
+    window.location.reload()
+  }
   return (
     <>
     <Container>
@@ -18,7 +29,7 @@ function Header() {
         </HeaderLogo>
         <HeaderOptionAddress>
           <HeaderOption>
-            <HeaderOptionLineOne>Hello</HeaderOptionLineOne>
+            <HeaderOptionLineOne>Welcome back!</HeaderOptionLineOne>
             <HeaderOptionLineTwo>Select your address <ImLocation/> </HeaderOptionLineTwo>
             </HeaderOption>
         </HeaderOptionAddress>
@@ -28,18 +39,17 @@ function Header() {
         </HeaderSearchContainer>
         <HeaderOptionNavItems>
           <HeaderOption>
-            <OptionLineOne>Hello, Eric</OptionLineOne>
-            <OptionLineTwo>Accounts & Lists</OptionLineTwo>
+            <OptionLineOne>Hello, {user.name}</OptionLineOne>
+            <OptionLineTwo onClick={logout}> Logout</OptionLineTwo>
           </HeaderOption>
           <HeaderOption>
-            <OptionLineOne>Returns</OptionLineOne>
-            <OptionLineTwo>& Orders</OptionLineTwo>
+            <Avatar name={user.name} size="50" round={true}/>
           </HeaderOption>
         </HeaderOptionNavItems>
         <HeaderOptionCart>
           <Link to='/cart'>
           <BsFillCartPlusFill/>
-          <CartCounter>0</CartCounter>
+          <CartCounter>{totalCount}</CartCounter>
           </Link>
         </HeaderOptionCart>
 
@@ -102,15 +112,14 @@ const HeaderOptionNavItems = styled.div`
 `
 const HeaderOption = styled.div`
   padding:16px;
-  cursor: pointer;
 `
 
 const OptionLineOne = styled.div`
-  cursor: pointer;
   
 `
 
 const OptionLineTwo = styled.div`
+  cursor: pointer;
   font-weight:bolder;
 `
 

@@ -1,20 +1,23 @@
-import  React, {useContext} from 'react'
+import  React, { useState } from 'react'
 import styled from 'styled-components'
 import { AiFillStar } from 'react-icons/ai'
-import { getDocument, updateCollection, addDocument } from '../utils/db'
-import { AppContext } from '../App.js'
+import { getDocument, addDocument, updateDocumentQuantity } from '../utils/db'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { success } from '../utils/alert'
+import { useSelector, useDispatch } from "react-redux";
+import { quantity, getCartItemsAsync } from "../feature/cartSlice";
 
 function Product({ product }) {  
-    const {products, items}= useContext(AppContext) 
-    async function cart() {
+    // eslint-disable-next-line
+    const dispatch = useDispatch()
+    const { totalCount } = useSelector((state) => state.cart)
+    const [successMessage, setSuccessMessage] = useState('')
+    const cart = () => {
         const doc = getDocument('cart-items', product.id)
         doc.then(res => {
             if(res) {
-                console.warn(`Result: ${res}`)
-                const data = {
-                    quantity: res.quantity + 1
-                }
-                updateCollection('cart-items', res.id, data)
+                updateDocumentQuantity('cart-items', res.id, res.quantity + 1)
             } else {
                 const data = {
                     description: product?.description,
@@ -23,8 +26,13 @@ function Product({ product }) {
                     price: product?.price,
                     quantity: 1
                 }
-                addDocument('cart-items', product?.id, data)
+                addDocument('cart-items', product?.id, data)    
             }
+            dispatch(getCartItemsAsync())
+            dispatch(quantity(parseInt(totalCount) + 1))
+            const msg = 'Item was added to your cart!'
+            setSuccessMessage(msg)
+            success(msg)
         }).catch(err => {
             console.error(err)
         })
@@ -46,6 +54,17 @@ function Product({ product }) {
                 <AddToCartButton onClick={cart}>
                     Add to Cart 
                 </AddToCartButton>
+                {successMessage && <ToastContainer
+                    position="bottom-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    />}
             </ActionSection>
         </Container>
         </>
@@ -56,7 +75,6 @@ export default Product
 
 const Container = styled.div`
     background-color: white;
-    z-index: 100;
     flex: 1;
     padding: 20px;
     margin: 10px;
@@ -75,6 +93,9 @@ const Rating = styled.div`
 const Image = styled.img`
     max-height: 200px;
     object-fit: contain;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 `
 
 const ActionSection = styled.div`
@@ -88,6 +109,7 @@ const AddToCartButton = styled.button`
     height: 30px;
     background-color: #f0c14b;
     border: 2px solid #a88734;
-    border-radius: 2px;
+    border-radius: 4px;
     cursor: pointer;
+
 `

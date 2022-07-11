@@ -1,12 +1,21 @@
-import React, { useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../Home.css'
 import Product from './Product'
 import styled from 'styled-components'
-import { AppContext } from '../App.js'
+import { getCollection } from '../utils/db'
+const productsCollection = 'product'
 
 function Home() { 
-  const {products, items} = useContext(AppContext)
-  // console.warn(`[Home]: Products: ${JSON.stringify(products)} items: ${JSON.stringify(items)}`)
+  const [products, setProducts] = useState([])
+  useEffect(() => {
+    getCollection(productsCollection)
+    .then(res => {
+      setProducts(res)
+    })
+    .catch(err => {
+        console.error(`Error connecting to the ${productsCollection} DB: ${err}`)
+    })
+  },[])
   return (
       <Container>
           <Banner/>
