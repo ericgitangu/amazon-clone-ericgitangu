@@ -48,7 +48,7 @@ function Header({ user }) {
         <HeaderOptionCart>
           <Link to='/cart'>
           <BsFillCartPlusFill/>
-          <CartCounter>{totalCount}</CartCounter>
+          <CartCounter>{ isNaN(totalCount) ? 0 : totalCount }</CartCounter>
           </Link>
         </HeaderOptionCart>
 

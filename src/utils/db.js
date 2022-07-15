@@ -58,7 +58,6 @@ export const getCollection = async (_collection) => {
     });
 
     if(list) {
-        console.warn(`Collection: ${JSON.stringify(list)}`)
         return list
     } else {
         console.warn("No such documents!");
@@ -68,5 +67,9 @@ export const getCollection = async (_collection) => {
 
 export const deleteDocument = async (_collection, id) => {
     console.warn(`Deleting Document from collection ${_collection} by id: ${id}`)
-    await deleteDoc(doc(db, _collection, id));
+    try{
+        await deleteDoc(doc(db, _collection, id));
+    } catch (err) {
+        console.error(err)
+    }
 }

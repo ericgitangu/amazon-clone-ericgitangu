@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { getCartItemsAsync, deleteCartItemsAsync, updateCartItemsAsync, quantity, total } from "../feature/cartSlice"
+import { deleteCartItemsAsync, updateCartItemsAsync, quantity, total } from "../feature/cartSlice"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { success } from '../utils/alert'
@@ -8,23 +8,13 @@ import {  useDispatch, useSelector } from "react-redux"
 
 const CartItem = ({ item }) => {
     const dispatch = useDispatch()
-    const { items } = useSelector((state) => state.cart)
+    const {  totalAmount, totalQuantity } = useSelector((state) => state.cart)
     const [successMessage, setSuccessMessage] = useState('')
     const removeItem = (e) => {
         e.preventDefault()
-        let cartTotal = 0
-        let cartAmount = 0
         dispatch(deleteCartItemsAsync(item?.id)).then(() => {
-            dispatch(getCartItemsAsync()).then(() => {
-                items.forEach(item => {
-                    cartTotal += item?.price * item?.quantity
-                    cartAmount += item?.quantity
-                })
-                dispatch(total(cartTotal))
-                dispatch(quantity(cartAmount))
-            }).catch(err => {
-                console.error(`Error updating state on delete ${err}`)
-            })
+            dispatch(total(totalAmount - (item?.quantity * item?.price)))
+            dispatch(quantity(totalQuantity - item?.quantity))
         }).catch(err=>{
             console.error(`DB error dispatching delete document`)
         })
@@ -33,20 +23,9 @@ const CartItem = ({ item }) => {
         success(msg)
     }
     const updateQuantity = (qtty) => {
-        let cartTotal = 0
-        let cartAmount = 0
-        
         dispatch(updateCartItemsAsync([item?.id, qtty])).then(() => {
-            dispatch(getCartItemsAsync()).then(() => {
-                items.forEach(item => {
-                    cartTotal += item?.price * item?.quantity
-                    cartAmount += item?.quantity
-                })
-                dispatch(total(cartTotal))
-                dispatch(quantity(cartAmount))
-            }).catch(err => {
-                console.error(`Error updating state on quantity update ${err}`)
-            })
+            dispatch(total(totalAmount + (item?.quantity * item?.price)))
+            dispatch(quantity(parseInt(totalQuantity) + item?.quantity))
         }).catch(err=> {
             console.error(`DB error dispatching updating document`)
         })

@@ -4,7 +4,7 @@ import { getCollection, deleteDocument, updateDocumentQuantity } from '../utils/
 const initialState = {
   items: [],
   totalAmount: 0,
-  totalCount: 0,
+  totalCount: localStorage.getItem('count'),
   status: 'idle',
 }
 
@@ -17,15 +17,12 @@ export const getCartItemsAsync = createAsyncThunk('getCart',
 export const deleteCartItemsAsync = createAsyncThunk('deleteItem', 
     async (id) => {
       deleteDocument('cart-items', id)
-      const collection = getCollection('cart-items')
-      return collection
 })
 
 export const updateCartItemsAsync = createAsyncThunk('updateItem', 
-    async (id, data) => {
-      updateDocumentQuantity('cart-items', id, data)
-      const collection = getCollection('cart-items')
-      return collection
+    async (params) => {
+      localStorage.setItem('count', params[1])
+      updateDocumentQuantity('cart-items', params[0], parseInt(params[1]))
 })
 
 const cartSlice = createSlice({
