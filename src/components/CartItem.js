@@ -1,50 +1,55 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { deleteDocument, updateDocumentQuantity } from '../utils/db'
-import { deleteCartItemsAsync, updateCartItemsAsync, quantity, total, getCartItemsAsync } from "../feature/cartSlice"
+import { getCartItemsAsync, deleteCartItemsAsync, updateCartItemsAsync, quantity, total } from "../feature/cartSlice"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { success } from '../utils/alert'
-import { useSelector, useDispatch } from "react-redux"
+import {  useDispatch, useSelector } from "react-redux"
 
 const CartItem = ({ item }) => {
-  const dispatch = useDispatch()
-  const { items, totalCount } = useSelector((state) => state.cart)
-  const [successMessage, setSuccessMessage] = useState('')
-
-  useEffect(() => {
-    dispatch(getCartItemsAsync())
-    // eslint-disable-next-line
-    }, []);
-    useEffect(() => {
-        let qtty = 0
-        items.forEach( item => {
-            qtty += item?.quantity
-        })
-        dispatch(quantity(qtty))
-        // eslint-disable-next-line
-    }, [])
-    useEffect(() => {
-        let ttl = 0
-        items.forEach( item => {
-            ttl += item?.quantity * item?.price
-        })
-        dispatch(total(ttl))
-        // eslint-disable-next-line
-    }, [totalCount])
+    const dispatch = useDispatch()
+    const { items } = useSelector((state) => state.cart)
+    const [successMessage, setSuccessMessage] = useState('')
     const removeItem = (e) => {
         e.preventDefault()
-        deleteDocument('cart-items', item?.id)
-        dispatch(deleteCartItemsAsync('cart-items', item?.id))
-        dispatch(quantity(parseInt(totalCount) - item?.quantity))
+        let cartTotal = 0
+        let cartAmount = 0
+        dispatch(deleteCartItemsAsync(item?.id)).then(() => {
+            dispatch(getCartItemsAsync()).then(() => {
+                items.forEach(item => {
+                    cartTotal += item?.price * item?.quantity
+                    cartAmount += item?.quantity
+                })
+                dispatch(total(cartTotal))
+                dispatch(quantity(cartAmount))
+            }).catch(err => {
+                console.error(`Error updating state on delete ${err}`)
+            })
+        }).catch(err=>{
+            console.error(`DB error dispatching delete document`)
+        })
         const msg = 'Item successfully removed from your cart!'
         setSuccessMessage(msg)
         success(msg)
     }
     const updateQuantity = (qtty) => {
-        updateDocumentQuantity('cart-items', item?.id, parseInt(qtty))
-        dispatch(updateCartItemsAsync('cart-items', item?.id, parseInt(qtty)))
-        dispatch(quantity(parseInt(totalCount)))
+        let cartTotal = 0
+        let cartAmount = 0
+        
+        dispatch(updateCartItemsAsync([item?.id, qtty])).then(() => {
+            dispatch(getCartItemsAsync()).then(() => {
+                items.forEach(item => {
+                    cartTotal += item?.price * item?.quantity
+                    cartAmount += item?.quantity
+                })
+                dispatch(total(cartTotal))
+                dispatch(quantity(cartAmount))
+            }).catch(err => {
+                console.error(`Error updating state on quantity update ${err}`)
+            })
+        }).catch(err=> {
+            console.error(`DB error dispatching updating document`)
+        })
     }
     return (
         <>

@@ -9,11 +9,10 @@ import styled from 'styled-components'
 import Avatar from 'react-avatar';
 import { useSelector } from "react-redux";
 
-function Header({ user }, {items}) {
+function Header({ user }) {
   const navigate = useNavigate()
-  const { totalCount } = useSelector((state) => state.cart)
+  const {  totalCount } = useSelector((state) => state.cart)
   user = JSON.parse(user)
-  console.warn(`[Header]: user=> ${JSON.stringify(user)} and items => ${JSON.stringify(items)}`)
   const logout = () => {
     localStorage.removeItem('user')
     navigate('/login')
