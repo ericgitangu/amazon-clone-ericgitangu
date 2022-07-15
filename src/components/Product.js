@@ -92,7 +92,7 @@ const Rating = styled.div`
 `
 const Image = styled.img`
     max-height: 200px;
-    min-height: 220px;
+    min-height: 240px;
     object-fit: contain;
     display: flex;
     flex-direction: column;
