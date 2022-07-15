@@ -92,6 +92,7 @@ const Rating = styled.div`
 `
 const Image = styled.img`
     max-height: 200px;
+    min-height: 220px;
     object-fit: contain;
     display: flex;
     flex-direction: column;
@@ -100,7 +101,7 @@ const Image = styled.img`
 
 const ActionSection = styled.div`
     margin-top: 12px;
-    flex-wrap: wrap;
+    flex-wrap: block;
 `
 
 const AddToCartButton = styled.button`
@@ -110,5 +111,7 @@ const AddToCartButton = styled.button`
     border: 2px solid #a88734;
     border-radius: 4px;
     cursor: pointer;
+    float: bottom;
+    margin: 0 auto;
 
 `
