@@ -42,6 +42,8 @@ const Content = styled.div `
   margin-top: -350px;
   padding: 0, 10px, 0 10px;
   display: flex;
+  flex-wrap: wrap;
+  
 `
 
 const Banner = styled.div `

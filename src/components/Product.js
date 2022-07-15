@@ -78,9 +78,9 @@ const Container = styled.div`
     flex: 1;
     padding: 20px;
     margin: 10px;
-    max-height: 400px;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    flex: 1 0 21%; 
 `
 const Title = styled.span``
 const Price = styled.span`
@@ -100,8 +100,7 @@ const Image = styled.img`
 
 const ActionSection = styled.div`
     margin-top: 12px;
-    display: grid;
-    place-items: center;
+    flex-wrap: wrap;
 `
 
 const AddToCartButton = styled.button`
