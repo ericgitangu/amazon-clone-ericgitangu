@@ -14,7 +14,7 @@ export const getCartItemsAsync = createAsyncThunk('getCart',
      return collection
 })
 
-export const deleteCartItemsAsync = createAsyncThunk('deleteItem', 
+export const deleteCartItemAsync = createAsyncThunk('deleteItem', 
     async (id) => {
       deleteDocument('cart-items', id)
 })
@@ -45,10 +45,10 @@ const cartSlice = createSlice({
       state.status = 'idle'
       state.items = action.payload
     })
-    .addCase(deleteCartItemsAsync.pending, (state) => {
+    .addCase(deleteCartItemAsync.pending, (state) => {
       state.status = 'loading'
     })
-    .addCase(deleteCartItemsAsync.fulfilled, (state, action) => {
+    .addCase(deleteCartItemAsync.fulfilled, (state, action) => {
       state.status = 'idle'
       state.items = action.payload
     })

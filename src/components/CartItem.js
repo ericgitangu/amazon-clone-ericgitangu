@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import NumberFormat from 'react-number-format'
-import { deleteCartItemsAsync, updateCartItemsAsync, quantity, total } from "../feature/cartSlice"
+import { deleteCartItemAsync, updateCartItemsAsync, quantity, total } from "../feature/cartSlice"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { success } from '../utils/alert'
@@ -13,7 +13,7 @@ const CartItem = ({ item }) => {
     const [successMessage, setSuccessMessage] = useState('')
     const removeItem = (e) => {
         e.preventDefault()
-        dispatch(deleteCartItemsAsync(item?.id)).then(() => {
+        dispatch(deleteCartItemAsync(item?.id)).then(() => {
             dispatch(total(totalAmount - (item?.quantity * item?.price)))
             dispatch(quantity(totalQuantity - item?.quantity))
         }).catch(err=>{

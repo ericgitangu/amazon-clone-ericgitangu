@@ -28,8 +28,11 @@ function Product({ product }) {
                 }
                 addDocument('cart-items', product?.id, data)    
             }
-            dispatch(getCartItemsAsync())
-            dispatch(quantity(parseInt(totalCount) + 1))
+            dispatch(getCartItemsAsync()).then(() => {
+                dispatch(quantity(parseInt(totalCount) + 1))
+            }).catch(err => {
+                console.error(`Error adding product to cart: ${err}`)
+            })
             const msg = 'Item was added to your cart!'
             setSuccessMessage(msg)
             success(msg)
