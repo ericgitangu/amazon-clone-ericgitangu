@@ -18,9 +18,9 @@ function CartTotal() {
 export default CartTotal
 
 const Container = styled.div`
-    flex: 0.3;
     padding: 20px;
     background-color: white;
+    text-align: center;
 `
 const Subtotal = styled.h2`
     margin-bottom: 16px;

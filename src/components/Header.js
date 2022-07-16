@@ -1,7 +1,6 @@
 import React from 'react'
 import '../Home.css'
 import { GrAmazon } from 'react-icons/gr'
-import { ImLocation } from 'react-icons/im'
 import { BiSearchAlt } from 'react-icons/bi'
 import { BsFillCartPlusFill } from 'react-icons/bs'
 import { Link, useNavigate } from 'react-router-dom'
@@ -26,23 +25,19 @@ function Header({ user }) {
             <GrAmazon/>
           </Link>  
         </HeaderLogo>
-        <HeaderOptionAddress>
+        <HeaderOptionNavItems>
           <HeaderOption>
-            <HeaderOptionLineOne>Welcome back!</HeaderOptionLineOne>
-            <HeaderOptionLineTwo>Select your address <ImLocation/> </HeaderOptionLineTwo>
-            </HeaderOption>
-        </HeaderOptionAddress>
+            <OptionLineOne>Hello, {user.name}</OptionLineOne>
+            <OptionLineTwo onClick={logout}> Logout</OptionLineTwo>
+          </HeaderOption>
+        </HeaderOptionNavItems>
         <HeaderSearchContainer>
           <HeaderSearchInput type='text'/>
           <BiSearchAlt/>
         </HeaderSearchContainer>
         <HeaderOptionNavItems>
           <HeaderOption>
-            <OptionLineOne>Hello, {user.name}</OptionLineOne>
-            <OptionLineTwo onClick={logout}> Logout</OptionLineTwo>
-          </HeaderOption>
-          <HeaderOption>
-            <Avatar name={user.name} size="50" round={true}/>
+            <Avatar style={{padding:0}} name={user.name} size="35" round={true}/>
           </HeaderOption>
         </HeaderOptionNavItems>
         <HeaderOptionCart>
@@ -61,13 +56,12 @@ export default Header
 
 
 const Container = styled.div`
-  height: 60px;
   background-color: #0F1111;
   display: flex;
   align-items-center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   color: white;
-  padding: 5px;
+  font-size:0.8em;
 `
 const HeaderLogo = styled.div`
   
@@ -75,15 +69,6 @@ const HeaderLogo = styled.div`
   align-items: center;
   padding-left: 16px;
   cursor: pointer;
-`
-const HeaderOptionAddress = styled.span`
-  cursor: pointer;  
-`
-const HeaderOptionLineOne = styled.span`
-  font-weight: medium;
-`
-const HeaderOptionLineTwo = styled.div`
-  font-weight: bolder;
 `
 const HeaderSearchContainer = styled.div`
   display: flex;
@@ -110,7 +95,7 @@ const HeaderOptionNavItems = styled.div`
 
 `
 const HeaderOption = styled.div`
-  padding:16px;
+  padding:5px;
 `
 
 const OptionLineOne = styled.div`

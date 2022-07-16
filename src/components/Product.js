@@ -74,13 +74,12 @@ function Product({ product }) {
 export default Product
 
 const Container = styled.div`
+    width: 100%;
     background-color: white;
-    flex: 1;
-    padding: 20px;
-    margin: 10px;
     display: flex;
     flex-wrap: wrap;
-    flex: 1 0 21%; 
+    flex: 1 0 25%;
+    padding: 20px;
 `
 const Title = styled.span``
 const Price = styled.span`
@@ -92,7 +91,7 @@ const Rating = styled.div`
 `
 const Image = styled.img`
     max-height: 200px;
-    min-height: 240px;
+    min-height: 280px;
     object-fit: contain;
     display: flex;
     flex-direction: column;
@@ -101,7 +100,6 @@ const Image = styled.img`
 
 const ActionSection = styled.div`
     margin-top: 12px;
-    flex-wrap: block;
 `
 
 const AddToCartButton = styled.button`
@@ -112,6 +110,6 @@ const AddToCartButton = styled.button`
     border-radius: 4px;
     cursor: pointer;
     float: bottom;
-    margin: 0 auto;
+    margin-left: 10px;
 
 `

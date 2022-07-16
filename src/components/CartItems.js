@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import CartItem from './CartItem'
 import { quantity, total, getCartItemsAsync } from "../feature/cartSlice"
 import { useSelector, useDispatch } from "react-redux";
+import CartTotal from './CartTotal'
 
 function CartItems() {
     const dispatch = useDispatch()
@@ -26,6 +27,7 @@ function CartItems() {
     return (
         <Container>
             <Title>Shopping Cart</Title>
+            <Items> Items {totalCount} </Items>
             <hr />
             <ItemsContainer>
                 {
@@ -34,6 +36,8 @@ function CartItems() {
                     ))
                 }
             </ItemsContainer>
+            <hr />
+            <CartTotal />
         </Container>
     )
 }
@@ -41,14 +45,15 @@ function CartItems() {
 export default CartItems
 
 const Container = styled.div`
-    flex: 0.8;
-    padding: 20px;
-    margin-right: 18px;
     background-color: white;
 `
 
 const Title = styled.h1`
     margin-bottom: 8px;
 `
+const Items = styled.h2`
+    margin-bottom: 8px;
+`
+
 const ItemsContainer = styled.div`
 `

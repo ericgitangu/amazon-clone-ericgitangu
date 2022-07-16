@@ -33,17 +33,18 @@ function Home() {
 export default Home
 
 const Container = styled.div `
-  max-width: 95%;
-  margin: 0 auto;
+  width: min-content;
+  font-size: 0.8em;
 `
 
 const Content = styled.div `
   background-image: white;
   margin-top: -350px;
-  padding: 0, 10px, 0 10px;
+  padding: 10, 10px, 0 10px;
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  
+  border: '1px solid #black'
 `
 
 const Banner = styled.div `

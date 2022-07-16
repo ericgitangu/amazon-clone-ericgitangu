@@ -1,13 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import CartItems from './CartItems'
-import CartTotal from './CartTotal'
 
 function Cart() {
   return (
     <Container>
         <CartItems />
-        <CartTotal />
     </Container>
   )
 }
@@ -15,8 +13,9 @@ function Cart() {
 export default Cart
 
 const Container = styled.div`
+    width: auto;
     display: flex;
     //TRouBLe
-    padding: 14px 18px 0 18px;
-    align-items: flex-start;
+    padding: 4px 8px 4px 8px;
+    align-items: center;
 `

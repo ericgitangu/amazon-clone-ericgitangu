@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import NumberFormat from 'react-number-format'
 import { deleteCartItemsAsync, updateCartItemsAsync, quantity, total } from "../feature/cartSlice"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -39,7 +40,7 @@ const CartItem = ({ item }) => {
 
             <CartItemInfo>
                 <CartItemInfoTop>
-                    <h2> {item?.description}</h2>
+                    <h6> {item?.description}</h6>
                 </CartItemInfoTop>
                 <CartItemInfoBottom>
                     <CartItemQuantityContainer>
@@ -70,7 +71,7 @@ const CartItem = ({ item }) => {
                 </CartItemInfoBottom>
             </CartItemInfo>
             <CartItemPrice>
-                {item?.price}
+            <NumberFormat value={item?.price} displayType='text' thousandSeparator={true} prefix={'$'} />
             </CartItemPrice>
         </Container>
         </>
@@ -81,6 +82,7 @@ export default CartItem
 
 
 const Container = styled.div`
+    width: inherit;
     padding-top: 12px;
     padding-bottom: 12px;
     display: flex;
@@ -100,13 +102,16 @@ const ImageContainer = styled.div`
     }
 `
 const CartItemInfo = styled.div`
-    flex-grow: 1;
+    font-size:1em;
+    
 `
 
 const CartItemInfoTop = styled.div`
+display: flex;
+flex-wrap: wrap;
     color: #007185;
-    h2 {
-        font-size: 18px;
+    h6 {
+        font-size: 1em;
     }
 `
 
@@ -138,5 +143,5 @@ const CartItemDeleteContainer = styled.div`
 const CartItemPrice = styled.div`
     font-size: 18px;
     font-weight: 700;
-    margin-left: 16px;
+    right: 0;
 `
