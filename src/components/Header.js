@@ -61,7 +61,7 @@ const Container = styled.div`
   align-items-center;
   justify-content: space-evenly;
   color: white;
-  font-size:0.8em;
+  font-size:.8em;
 `
 const HeaderLogo = styled.div`
   

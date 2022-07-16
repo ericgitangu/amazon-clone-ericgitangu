@@ -90,11 +90,11 @@ const Rating = styled.div`
     display: flex;
 `
 const Image = styled.img`
-    max-height: 200px;
-    min-height: 280px;
+    height: 160px;
+    width: 200px;
     object-fit: contain;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex: 1;
 `
 

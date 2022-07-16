@@ -14,6 +14,7 @@ export default Cart
 
 const Container = styled.div`
     width: auto;
+    overflow:hidden;
     display: flex;
     //TRouBLe
     padding: 4px 8px 4px 8px;

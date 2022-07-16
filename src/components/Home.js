@@ -33,7 +33,8 @@ function Home() {
 export default Home
 
 const Container = styled.div `
-  width: min-content;
+  width: auto;
+  overflow:hidden;
   font-size: 0.8em;
 `
 

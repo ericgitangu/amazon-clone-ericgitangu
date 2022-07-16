@@ -90,8 +90,9 @@ const Container = styled.div`
 `
 
 const ImageContainer = styled.div`
-    width: 180px;
-    height: 180px;
+    width: 160px;
+    height: 200px;
+    object-fit:contain;
     flex-shrink: 0;
     flex-grow: 0;
     margin-right: 16px;
@@ -142,6 +143,6 @@ const CartItemDeleteContainer = styled.div`
 
 const CartItemPrice = styled.div`
     font-size: 18px;
-    font-weight: 700;
-    right: 0;
+    font-weight: 600;
+    margin-left:-20px;
 `

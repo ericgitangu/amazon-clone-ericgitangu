@@ -27,7 +27,7 @@ function CartItems() {
     return (
         <Container>
             <Title>Shopping Cart</Title>
-            <Items> Items {totalCount} </Items>
+            <Items> {totalCount} items in your cart</Items>
             <hr />
             <ItemsContainer>
                 {
@@ -36,7 +36,6 @@ function CartItems() {
                     ))
                 }
             </ItemsContainer>
-            <hr />
             <CartTotal />
         </Container>
     )
@@ -46,12 +45,15 @@ export default CartItems
 
 const Container = styled.div`
     background-color: white;
+    margin: 0 auto;
 `
 
 const Title = styled.h1`
+    text-align:center;
     margin-bottom: 8px;
 `
 const Items = styled.h2`
+    text-align:center;
     margin-bottom: 8px;
 `
 
