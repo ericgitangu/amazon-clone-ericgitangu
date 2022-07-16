@@ -6,22 +6,17 @@ import { BsFillCartPlusFill } from 'react-icons/bs'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Avatar from 'react-avatar';
-import { useSelector, useDispatch } from "react-redux";
-import { getCartItemsAsync, deleteCartItemAsync  } from "../feature/cartSlice"
+import { useSelector } from "react-redux";
+import { success } from '../utils/alert'
 
 function Header({ user }) {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const {  items, totalCount } = useSelector((state) => state.cart)
+  const { totalCount } = useSelector((state) => state.cart)
   user = JSON.parse(user)
   const logout = () => {
-    dispatch(getCartItemsAsync()).then(() => {
-      items.forEach((item) => {
-        dispatch(deleteCartItemAsync ('cart-items', items?.id))
-      })
-    })
-    localStorage.removeItem('count')
     localStorage.removeItem('user')
+    localStorage.removeItem('count')
+    success('You\'ve been logged out successfully!')
     navigate('/login')
     window.location.reload()
   }
