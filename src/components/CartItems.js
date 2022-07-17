@@ -10,7 +10,7 @@ function CartItems() {
     return (
         <Container>
             <Title>Shopping Cart</Title>
-            <Items> {isNaN(totalCount) ? <SpinnerDotted /> : `Updating  ${totalCount} items in your cart`}</Items>
+            <Items> {isNaN(totalCount) ? <SpinnerDotted /> : `${totalCount} items in your cart`}</Items>
             {items.length > 0? <CartTotal /> : <h5> Your cart is empty, click on the logo to continue shopping </h5>}
             <hr />
             <ItemsContainer>
