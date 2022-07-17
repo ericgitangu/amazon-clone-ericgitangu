@@ -3,13 +3,14 @@ import styled from 'styled-components'
 import CartItem from './CartItem'
 import { useSelector } from "react-redux";
 import CartTotal from './CartTotal'
+import { SpinnerDotted } from 'spinners-react'
 
 function CartItems() {
     const { items, totalCount } = useSelector((state) => state.cart)
     return (
         <Container>
             <Title>Shopping Cart</Title>
-            <Items> {totalCount} items in your cart</Items>
+            <Items> {isNaN(totalCount) ? <SpinnerDotted /> : `Updating  ${totalCount} items in your cart`}</Items>
             {items.length > 0? <CartTotal /> : <h5> Your cart is empty, click on the logo to continue shopping </h5>}
             <hr />
             <ItemsContainer>
