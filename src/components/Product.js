@@ -74,7 +74,6 @@ function Product({ product }) {
 export default Product
 
 const Container = styled.div`
-    width: 100%;
     background-color: white;
     display: flex;
     flex-wrap: wrap;
@@ -101,16 +100,17 @@ const Image = styled.img`
 
 const ActionSection = styled.div`
     margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    width: fit-contetn;
 `
 
 const AddToCartButton = styled.button`
-    width: 100px;
     height: 30px;
     background-color: #f0c14b;
     border: 2px solid #a88734;
     border-radius: 4px;
     cursor: pointer;
-    float: bottom;
     margin-left: 10px;
 
 `

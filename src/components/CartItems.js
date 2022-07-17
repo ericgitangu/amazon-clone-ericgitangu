@@ -10,6 +10,7 @@ function CartItems() {
         <Container>
             <Title>Shopping Cart</Title>
             <Items> {totalCount} items in your cart</Items>
+            {items.length > 0? <CartTotal /> : <h5> Your cart is empty, click on the logo to continue shopping </h5>}
             <hr />
             <ItemsContainer>
                 {
@@ -18,7 +19,6 @@ function CartItems() {
                     ))
                 }
             </ItemsContainer>
-            <CartTotal />
         </Container>
     )
 }

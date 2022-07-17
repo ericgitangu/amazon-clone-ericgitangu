@@ -26,7 +26,7 @@ const CartItem = ({ item }) => {
     const updateQuantity = (qtty) => {
         dispatch(updateCartItemsAsync([item?.id, qtty])).then(() => {
             dispatch(total(totalAmount + (item?.quantity * item?.price)))
-            // dispatch(quantity(parseInt(totalQuantity) + item?.quantity))
+            dispatch(quantity(parseInt(totalQuantity) + item?.quantity))
         }).catch(err=> {
             console.error(`DB error dispatching updating document`)
         })
