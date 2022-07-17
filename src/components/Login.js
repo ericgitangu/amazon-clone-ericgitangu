@@ -73,7 +73,7 @@ const Container = styled.div`
     place-items: center;
 `
 const Content = styled.div`
-    padding: 100px;
+    padding: 10px;
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 1px 3px gray;
