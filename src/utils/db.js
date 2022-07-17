@@ -15,7 +15,7 @@ export const getDocument = async(_collection, id) => {
 }
 
 export const addDocument = async(_collection, id,  data) => {
-    console.warn(`Adding Document to collection ${_collection} by id: ${id}`)
+    console.warn(`Adding Document to collection ${_collection} by id: ${id} with data: ${data}`)
     await setDoc(doc(db, _collection, id), data)
 }
 

@@ -9,6 +9,7 @@ import Avatar from 'react-avatar';
 import { useSelector } from "react-redux";
 import { success } from '../utils/alert'
 
+
 function Header({ user }) {
   const navigate = useNavigate()
   const { totalCount } = useSelector((state) => state.cart)

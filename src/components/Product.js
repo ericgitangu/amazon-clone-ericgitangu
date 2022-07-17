@@ -6,7 +6,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { success } from '../utils/alert'
 import { useSelector, useDispatch } from "react-redux";
-import { quantity, getCartItemsAsync } from "../feature/cartSlice";
+import { quantity } from '../feature/cartSlice'
+import NumberFormat from 'react-number-format'
 
 function Product({ product }) {  
     // eslint-disable-next-line
@@ -28,11 +29,7 @@ function Product({ product }) {
                 }
                 addDocument('cart-items', product?.id, data)    
             }
-            dispatch(getCartItemsAsync()).then(() => {
-                dispatch(quantity(parseInt(totalCount) + 1))
-            }).catch(err => {
-                console.error(`Error adding product to cart: ${err}`)
-            })
+            dispatch(quantity(parseInt(totalCount) + 1))
             const msg = 'Item was added to your cart!'
             setSuccessMessage(msg)
             success(msg)
@@ -47,7 +44,7 @@ function Product({ product }) {
                 {product?.description}
             </Title>
             <Price>
-                {product?.price}
+                <NumberFormat value={product?.price} displayType='text' thousandSeparator={true} prefix={'$'} />
             </Price>
             <Rating>
                 {Array(product?.rating).fill(0).map( (_, key) => <AiFillStar className="star" key={key}/>)}
@@ -83,6 +80,7 @@ const Container = styled.div`
     flex-wrap: wrap;
     flex: 1 0 25%;
     padding: 20px;
+    box-shadow: 0 1px 3px gray;
 `
 const Title = styled.span``
 const Price = styled.span`

@@ -1,21 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import '../Home.css'
 import Product from './Product'
 import styled from 'styled-components'
-import { getCollection } from '../utils/db'
-const productsCollection = 'product'
+import { useSelector } from 'react-redux'
+
 
 function Home() { 
-  const [products, setProducts] = useState([])
-  useEffect(() => {
-    getCollection(productsCollection)
-    .then(res => {
-      setProducts(res)
-    })
-    .catch(err => {
-        console.error(`Error connecting to the ${productsCollection} DB: ${err}`)
-    })
-  },[])
+  const { products } = useSelector((state) => state.product)
   return (
       <Container>
           <Banner/>
