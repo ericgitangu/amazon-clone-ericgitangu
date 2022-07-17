@@ -28,7 +28,6 @@ const Subtotal = styled.h2`
 
 const CheckoutButton = styled.button`
     background-color: #f0c14b;
-    width: 100%;
     // vertical - horizontal
     padding: 4px 8px;
     border: 2px solid #a88734;
