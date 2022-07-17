@@ -24,8 +24,7 @@ function Home() {
 export default Home
 
 const Container = styled.div `
-  width: auto;
-  overflow:hidden;
+  width: 100%;
   font-size: 0.8em;
 `
 
