@@ -71,7 +71,7 @@ const CartItem = ({ item }) => {
                 </CartItemInfoBottom>
             </CartItemInfo>
             <CartItemPrice>
-            <NumberFormat value={item?.price} displayType='text' thousandSeparator={true} prefix={'$'} />
+                <CartItemPrice><NumberFormat value={item?.price} displayType='text' thousandSeparator={true} prefix={'$'} /></CartItemPrice>
             </CartItemPrice>
         </Container>
         </>
