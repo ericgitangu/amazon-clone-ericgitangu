@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-React, React Redux, Webpack 5, React-rewired, React-redux, Redux-toolkit, Firebase. Running locally at https://clone-fcd72.web.app (Firebase Hosting)
+React, React Redux, Webpack 5, React-rewired, React-redux, Redux-toolkit, Firebase. Running locally at https://clone-fcd72.web.app (Firebase Hosting). This project is still under active development, several key components are not yet functional.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
