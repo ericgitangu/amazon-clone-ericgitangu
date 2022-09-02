@@ -33,6 +33,7 @@
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0",
     "serve": "^14.0.1",
+    "spinners-react": "^1.0.7",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "styled-components": "^5.3.5",

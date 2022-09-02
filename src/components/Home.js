@@ -1,6 +1,7 @@
 import React from 'react'
 import '../Home.css'
 import Product from './Product'
+import Footer from './Footer'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 
@@ -17,6 +18,7 @@ function Home() {
               ))
             }
           </Content>
+          <Footer/>
       </Container>
   )
 }
